@@ -6,14 +6,14 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 14:54:10 by vfries            #+#    #+#             */
-/*   Updated: 2022/10/21 02:50:47 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2022/11/06 00:01:31 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 #include <stdlib.h>
 #include <unistd.h>
-#define MAX_FD_PLUS_1 1024
+#define MAX_FD 1023
 
 void	update_buffer(char *buffer)
 {
@@ -48,8 +48,6 @@ char	*dup_before_new_line(char *buffer, t_bool *new_line_found)
 
 	len = 0;
 	while (len < BUFFER_SIZE - 1 && buffer[len] != '\n' && buffer[len])
-		len++;
-	if (buffer[len] && buffer[len] != '\n' && len == BUFFER_SIZE - 1)
 		len++;
 	if (buffer[len] == '\n')
 		*new_line_found = TRUE;
@@ -110,13 +108,13 @@ char	*get_line(t_lst *line_lst)
 
 char	*get_next_line(int fd)
 {
-	static char	buffer[MAX_FD_PLUS_1][BUFFER_SIZE];
+	static char	buffer[MAX_FD + 1][BUFFER_SIZE];
 	t_lst		*line;
 	t_bool		new_line_found;
 	ssize_t		read_output;
 
 	new_line_found = FALSE;
-	if (BUFFER_SIZE < 1 || fd < 0 || fd > MAX_FD_PLUS_1 - 1)
+	if (BUFFER_SIZE < 1 || fd < 0 || fd > MAX_FD)
 		return (NULL);
 	if (buffer[fd][0] == '\0')
 		if (read(fd, buffer[fd], BUFFER_SIZE) == -1)

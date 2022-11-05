@@ -6,11 +6,11 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 02:38:31 by vfries            #+#    #+#             */
-/*   Updated: 2022/10/21 02:50:54 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2022/11/06 00:01:39 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 #include <stdlib.h>
 
 void	ft_bzero(void *s, size_t n)
