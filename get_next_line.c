@@ -6,39 +6,31 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 14:54:10 by vfries            #+#    #+#             */
-/*   Updated: 2022/11/05 23:42:02 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2022/11/08 18:03:19 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include <stdlib.h>
 #include <unistd.h>
-#define MAX_FD 1023
+#define MAX_FD 1024
 
 void	update_buffer(char *buffer)
 {
-	ssize_t	max;
-	ssize_t	min;
+	size_t	end;
+	size_t	start;
 
-	max = 0;
-	while (max < BUFFER_SIZE)
-	{
-		if (buffer[max] && buffer[max] != '\n')
-			max++;
-		else
-			break ;
-	}
-	if (max == BUFFER_SIZE)
-	{
-		ft_bzero(buffer, BUFFER_SIZE);
-		return ;
-	}
-	if (buffer[max] == '\n')
-		max++;
-	min = 0;
-	while (max < BUFFER_SIZE)
-		buffer[min++] = buffer[max++];
-	ft_bzero(&buffer[min], BUFFER_SIZE - min);
+	end = 0;
+	while (end < BUFFER_SIZE && buffer[end] && buffer[end] != '\n')
+		end++;
+	if (end == BUFFER_SIZE)
+		return (ft_bzero_stop_at_zero(buffer, BUFFER_SIZE));
+	if (buffer[end] == '\n')
+		end++;
+	start = 0;
+	while (end < BUFFER_SIZE)
+		buffer[start++] = buffer[end++];
+	ft_bzero_stop_at_zero(buffer + start, end - start);
 }
 
 char	*dup_before_new_line(char *buffer, t_bool *new_line_found)
@@ -67,15 +59,15 @@ char	*dup_before_new_line(char *buffer, t_bool *new_line_found)
 size_t	get_line_len(t_lst *line_lst)
 {
 	size_t	len;
-	size_t	i;
+	char	*str_end;
 
 	len = 0;
 	while (line_lst)
 	{
-		i = 0;
-		while (line_lst->data[i])
-			i++;
-		len += i;
+		str_end = line_lst->data;
+		while (*str_end)
+			str_end++;
+		len += str_end - line_lst->data;
 		line_lst = line_lst->next;
 	}
 	return (len);
@@ -85,7 +77,7 @@ char	*get_line(t_lst *line_lst)
 {
 	char	*line;
 	char	*line_start;
-	size_t	i;
+	char	*list_str;
 	t_lst	*current;
 
 	lst_reverse(&line_lst);
@@ -96,9 +88,9 @@ char	*get_line(t_lst *line_lst)
 	current = line_lst;
 	while (current)
 	{
-		i = 0;
-		while (current->data[i])
-			*line++ = current->data[i++];
+		list_str = current->data;
+		while (*list_str)
+			*line++ = *list_str++;
 		current = current->next;
 	}
 	*line = '\0';

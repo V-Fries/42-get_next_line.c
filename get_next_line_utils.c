@@ -6,20 +6,17 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 02:38:31 by vfries            #+#    #+#             */
-/*   Updated: 2022/10/21 02:43:40 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2022/11/08 17:26:46 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include <stdlib.h>
 
-void	ft_bzero(void *s, size_t n)
+void	ft_bzero_stop_at_zero(void *s, size_t n)
 {
-	while (n > 0)
-	{
+	while (n-- > 0 && *(unsigned char *)s != 0)
 		*(unsigned char *)s++ = 0;
-		n--;
-	}
 }
 
 void	lst_add_front(t_lst **head, char *data)
@@ -32,16 +29,8 @@ void	lst_add_front(t_lst **head, char *data)
 	if (new == NULL)
 		return ;
 	new->data = data;
-	if (*head == NULL)
-	{
-		new->next = NULL;
-		*head = new;
-	}
-	else
-	{
-		new->next = *head;
-		*head = new;
-	}
+	new->next = *head;
+	*head = new;
 }
 
 void	*lst_free(t_lst *lst)
@@ -64,10 +53,6 @@ void	lst_reverse(t_lst **lst)
 	t_lst	*current;
 	t_lst	*next;
 
-	if (*lst == NULL)
-		return ;
-	if ((*lst)->next == NULL)
-		return ;
 	previous = NULL;
 	current = *lst;
 	while (current)

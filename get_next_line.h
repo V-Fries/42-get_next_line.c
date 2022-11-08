@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 02:37:37 by vfries            #+#    #+#             */
-/*   Updated: 2022/10/21 02:43:54 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2022/11/08 17:28:08 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ typedef struct s_lst
 	struct s_lst	*next;
 }					t_lst;
 
-void				ft_bzero(void *s, size_t n);
+void				ft_bzero_stop_at_zero(void *s, size_t n);
 void				lst_add_front(t_lst **head, char *data);
 void				*lst_free(t_lst *lst);
 void				lst_reverse(t_lst **lst);
