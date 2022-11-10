@@ -6,14 +6,18 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 14:54:10 by vfries            #+#    #+#             */
-/*   Updated: 2022/11/08 18:05:36 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2022/11/10 12:33:59 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
+#include <limits.h>
 #include <stdlib.h>
 #include <unistd.h>
-#define MAX_FD 1024
+
+#ifndef OPEN_MAX
+# define OPEN_MAX 1024
+#endif
 
 void	update_buffer(char *buffer)
 {
@@ -100,13 +104,13 @@ char	*get_line(t_lst *line_lst)
 
 char	*get_next_line(int fd)
 {
-	static char	buffer[MAX_FD + 1][BUFFER_SIZE];
+	static char	buffer[OPEN_MAX][BUFFER_SIZE];
 	t_lst		*line;
 	t_bool		new_line_found;
 	ssize_t		read_output;
 
 	new_line_found = FALSE;
-	if (BUFFER_SIZE < 1 || fd < 0 || fd > MAX_FD)
+	if (BUFFER_SIZE < 1 || fd < 0 || fd >= OPEN_MAX)
 		return (NULL);
 	if (buffer[fd][0] == '\0')
 		if (read(fd, buffer[fd], BUFFER_SIZE) == -1)
