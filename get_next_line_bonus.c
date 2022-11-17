@@ -6,7 +6,7 @@
 /*   By: vfries <vfries@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 14:54:10 by vfries            #+#    #+#             */
-/*   Updated: 2022/11/10 12:33:59 by vfries           ###   ########lyon.fr   */
+/*   Updated: 2022/11/17 01:52:42 by vfries           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	update_buffer(char *buffer)
 	if (buffer[end] == '\n')
 		end++;
 	start = 0;
-	while (end < BUFFER_SIZE)
+	while (end < BUFFER_SIZE && buffer[end])
 		buffer[start++] = buffer[end++];
 	ft_bzero_stop_at_zero(buffer + start, end - start);
 }
